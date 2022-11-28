@@ -1,0 +1,131 @@
+<section>
+    <form class="form" [formGroup]="infoForm">
+      <h3 class="form__title">Сведения о застрахованных лицах</h3>
+      <div class="form__item">
+        <p>1. Реквизиты страхователя (заполняются обязательно):</p>
+        <div class="form__input-item">Регистрационный номер в ПФР
+            <input class="form__input"
+                   mask="000-000-000000"
+                   formControlName="numPFR"
+                   [ngClass]="{'border-err': _numPFR?.invalid && isValidForm}"/>
+            <div *ngIf="_numPFR?.invalid && isValidForm" class="form__input-error" style="margin-right: 15px">
+              <div *ngIf="_numPFR?.errors?.['required']">*обязательно</div>
+              <div *ngIf="_numPFR?.errors?.['minlength']">*не менее 12 символов</div>
+            </div>
+        </div>
+        <div class="form__input-item">Наименование (краткое)
+            <input class="form__input"
+                   formControlName="nameShort"
+                   [ngClass]="{'border-err': _nameShort?.invalid && isValidForm}">
+            <div *ngIf="_nameShort?.invalid && isValidForm" class="form__input-error" style="margin-right: 65px">
+              <div *ngIf="_nameShort?.errors?.['required']">*обязательно</div>
+            </div>
+        </div>
+        <div class="form__input-item">
+          <span style="position: relative">ИНН
+            <input class="form__input"
+                   mask="000 000 000000"
+                   formControlName="inn"
+                   [ngClass]="{'border-err': _inn?.invalid && isValidForm}">
+            <div *ngIf="_inn?.invalid && isValidForm" class="form__input-error" style="position: absolute; right: 0">
+              <div *ngIf="_inn?.errors?.['required']">*обязательно</div>
+              <div *ngIf="_inn?.errors?.['minlength']">*не менее 12 символов</div>
+            </div>
+          </span>
+          <span style="position: relative">КПП
+          <input class="form__input"
+                 mask="000 000 000"
+                 formControlName="kpp"
+                 [ngClass]="{'border-err': _kpp?.invalid && isValidForm}">
+            <div *ngIf="_kpp?.invalid && isValidForm" class="form__input-error" style="position: absolute; right: 0">
+              <div *ngIf="_kpp?.errors?.['required']">*обязательно</div>
+              <div *ngIf="_kpp?.errors?.['minlength']">*не менее 9 символов</div>
+            </div>
+        </span>
+        </div>
+      </div>
+      <div class="form__item">
+        <div>2. Отчетный период
+          <span style="position: relative">
+          <input class="form__input w-100"
+                 mask="00"
+                 formControlName="month"
+                 [ngClass]="{'border-err': _month?.invalid && isValidForm}"/>
+          <div *ngIf="_month?.invalid && isValidForm" style="position: absolute; right: 0; " class="form__input-error">
+            <div *ngIf="_month?.errors?.['required']">*обязательно</div>
+            <div *ngIf="_month?.errors?.['max']">*не больше 12</div>
+          </div>
+        </span>
+          <span style="position: relative">
+            календарного года
+            <input class="form__input w-100"
+                   mask="0000"
+                   formControlName="year"
+                   [ngClass]="{'border-err': _year?.invalid && isValidForm}">
+            <div *ngIf="_year?.invalid && isValidForm" style="position: absolute; right: 0; " class="form__input-error">
+            <div *ngIf="_year?.errors?.['required']">*обязательно</div>
+          </div>
+          </span>
+          <span class="form__hint">(заполняется обязательно)</span>
+        </div>
+        <p class="form__hint" [ngClass]="{'marginTop':_year?.invalid || _month?.invalid && isValidForm}">(01 - январь, 02 - февраль, 03 - март, 04 - апрель, 05 - май, 06 - июнь, 07 - июль, 08 - август, 09 - сентябрь,
+          10 - октябрь, 11 - ноябрь, 12 - декабрь)</p>
+      </div>
+      <div class="form__item">
+        <div>3. Типы формы (код)
+          <span style="position: relative">
+            <input class="form__input"
+                   formControlName="code"
+                   [ngClass]="{'border-err': _code?.invalid && isValidForm}"/>
+            <div *ngIf="_code?.invalid && isValidForm" class="form__input-error" style="position: absolute; right: 0">
+              <div *ngIf="_code?.errors?.['required']">*обязательно</div>
+            </div>
+          </span><span class="form__hint">(заполняется обязательно одним из кодов:  «исход», «доп», «отмн»)</span>
+          </div>
+        <p class="form__hint">«исход» - исходная форма, впервые подаваемая страхователем о застрахованных лицах за данный отчетный период</p>
+        <p class="form__hint">«доп» - дополняющая форма, подаваемая с целью дополнения ранее принятых ПФР сведений о застрахованных лицах за данный отчетный период</p>
+        <p class="form__hint">«отмн» - отменяющая форма, подаваемая с целью отмены ранее неверно поданных сведений о застрахованных лицах за указанный отчетный период</p>
+      </div>
+      <div class="form__item">
+        <p>4. Сведения о застрахованных лицах:</p>
+        <p class="form__hint">(указываются данные о застрахованных лицах - работниках, с которыми в отчетном периоде заключены, продолжают
+          действовать или прекращены трудовые договоры, договоры гражданского-правового характера, предметом которых является
+          выполнение работ, оказание услуг, договоры авторского заказа, договоры об отчуждении исключительного права на произведения
+          науки, литературы, искусства, издательские лицензионные договоры, лицензионные договоры о предоставлении права
+          использования произведения науки, литературы, искусства, в том числе заключенные на коллективной основе)</p>
+      </div>
+      <div class="form__item">
+        <table >
+          <tr>
+            <th style="font-size: 12px; width: 30px">№ <div>п/п</div></th>
+            <th>Фамилия, имя отчество <span class="form__hint">(при наличии) застрахованного лица (заполняются в именительном падеже)</span></th>
+            <th>Страховой номер индивидуального лицевого счета <span class="form__hint">(заполняется обязательно)</span></th>
+            <th>ИНН <span class="form__hint">(заполняется при наличии у страхователя данных об ИНН физического лица)</span></th>
+            <button (click)="addTable()" class="form__table-btn">+</button>
+          </tr>
+          <ng-container formArrayName="table">
+            <tbody *ngFor="let data of table.controls; index as i;">
+              <tr [formGroupName]="i">
+                <td style="text-align: center">{{i + 1}}</td>
+                <td><input class="form__table-input" formControlName="fio"></td>
+                <td [ngClass]="{'border-err': table.controls[i].get('snils')?.invalid && isValidForm}">
+                  <input class="form__table-input"
+                           mask="000-000-000 00"
+                           formControlName="snils"></td>
+                <td><input class="form__table-input"
+                           mask="000 000 000000"
+                           formControlName="inn"
+                ></td>
+                <button (click)="delTable(i)" class="form__table-btn" style="background: red">-</button>
+              </tr>
+            </tbody>
+            </ng-container>
+        </table>
+      </div>
+      <div class="form__item">
+        <button class="form__btn" (click)="checkError()" >Проверить</button>
+        <button class="form__btn" [disabled]="infoForm.status !== 'VALID'" (click)="saveFrom()">Сохранить</button>
+      </div>
+    </form>
+</section>
+
